@@ -64,11 +64,11 @@ public class Point implements Comparable<Point> {
         double deltaY = that.y - this.y;
 
         if (deltaX == 0 && deltaY == 0)
-            return Double.NEGATIVE_INFINITY;    // both coordinates are equal
+            return Double.NEGATIVE_INFINITY;    // degenerate line segment
         else if (deltaX == 0)
             return Double.POSITIVE_INFINITY;    // the line segment is vertical
         else if (deltaY == 0)
-            return 0;                           // the line segment is horizontal
+            return 0.0;                         // the line segment is horizontal
 
         return deltaY / deltaX;
     }
@@ -103,6 +103,9 @@ public class Point implements Comparable<Point> {
      */
     public Comparator<Point> slopeOrder() {
         /* YOUR CODE HERE */
+        SlopeComparator comparator = new SlopeComparator(this);
+
+        return comparator;
     }
 
 
