@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 /*
  * Examines 4 points at a time and checks whether they all lie on the same
@@ -28,19 +26,19 @@ public class BruteCollinearPoints {
                 throw new IllegalArgumentException("Point in the array is null.");
         }
 
-        // Put all array elements in a HashSet
-        Set<Point> s = new HashSet<Point>(Arrays.asList(points));
+        Arrays.sort(points);
 
-        // If all elements are distinct, size of HashSet should be same as array.
-        if (s.size() != points.length)
-            throw new IllegalArgumentException("Array contains repeated points.");
+        // check for duplicates
+        for(int i = 1; i < points.length; i++){
+            if (points[i].compareTo(points[i-1]) == 0)
+                throw new IllegalArgumentException("Array contains repeated points.");
+        }
 
         for (int i = 0; i < points.length; i++){
             for (int j = i+1; j < points.length; j++){
                 double slopePQ = points[i].slopeTo(points[j]);
                 for (int k = j+1; k < points.length; k++){
                     double slopePR = points[i].slopeTo(points[k]);
-
                     // only check fourth point if the first three points are collinear
                     if (slopePQ != slopePR)
                         continue;

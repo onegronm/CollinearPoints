@@ -135,7 +135,7 @@ public class Point implements Comparable<Point> {
         ArrayList<Point> points = new ArrayList<>();
         try
         {
-            File input10 = new File("C:\\Users\\omarn\\source\\repos\\CollinearPoints\\input\\input6.txt");
+            File input10 = new File("C:\\Users\\omarn\\source\\repos\\CollinearPoints\\input\\rs1423.txt");
             Scanner myReader = null;
             myReader = new Scanner(input10);
 
@@ -156,15 +156,14 @@ public class Point implements Comparable<Point> {
             for (Point p : points){
                 p.draw();
             }
-            StdDraw.show();
 
             // print and draw the line segments
             BruteCollinearPoints collinear = new BruteCollinearPoints(points.toArray(new Point[0]));
             for (LineSegment segment : collinear.segments()) {
                 StdOut.println(segment);
-                //segment.draw();
+                segment.draw();
             }
-            //StdDraw.show();
+            StdDraw.show();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
