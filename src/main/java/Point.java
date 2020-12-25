@@ -8,7 +8,12 @@
  *
  ******************************************************************************/
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Scanner;
+
 import edu.princeton.cs.algs4.StdDraw;
 
 public class Point implements Comparable<Point> {
@@ -126,5 +131,30 @@ public class Point implements Comparable<Point> {
      */
     public static void main(String[] args) {
         /* YOUR CODE HERE */
+        ArrayList<Point> points = new ArrayList<>();
+        try
+        {
+            File input10 = new File("C:\\Users\\omarn\\source\\repos\\CollinearPoints\\input\\input10.txt");
+            Scanner myReader = null;
+            myReader = new Scanner(input10);
+
+            while (myReader.hasNextLine()){
+                String data = myReader.nextLine();
+                String[] strs = data.split("\\s+");
+
+                if(strs.length > 1)
+                    points.add(new Point(Integer.parseInt(strs[0]), Integer.parseInt(strs[1])));
+            }
+
+            myReader.close();
+
+            for (Point p : points){
+                System.out.println(p.toString());
+            }
+
+            BruteCollinearPoints collinearPoints = new BruteCollinearPoints(points.toArray(new Point[0]));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
