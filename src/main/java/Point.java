@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 import edu.princeton.cs.algs4.StdDraw;
+import edu.princeton.cs.algs4.StdOut;
 
 public class Point implements Comparable<Point> {
 
@@ -134,7 +135,7 @@ public class Point implements Comparable<Point> {
         ArrayList<Point> points = new ArrayList<>();
         try
         {
-            File input10 = new File("C:\\Users\\omarn\\source\\repos\\CollinearPoints\\input\\input10.txt");
+            File input10 = new File("C:\\Users\\omarn\\source\\repos\\CollinearPoints\\input\\input6.txt");
             Scanner myReader = null;
             myReader = new Scanner(input10);
 
@@ -148,11 +149,23 @@ public class Point implements Comparable<Point> {
 
             myReader.close();
 
+            // draw the points
+            StdDraw.enableDoubleBuffering();
+            StdDraw.setXscale(0, 32768);
+            StdDraw.setYscale(0, 32768);
             for (Point p : points){
-                System.out.println(p.toString());
+                p.draw();
             }
+            StdDraw.show();
 
-            BruteCollinearPoints collinearPoints = new BruteCollinearPoints(points.toArray(new Point[0]));
+            // print and draw the line segments
+            BruteCollinearPoints collinear = new BruteCollinearPoints(points.toArray(new Point[0]));
+            for (LineSegment segment : collinear.segments()) {
+                StdOut.println(segment);
+                //segment.draw();
+            }
+            //StdDraw.show();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
