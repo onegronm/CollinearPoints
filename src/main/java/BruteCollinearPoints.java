@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 /*
  * Examines 4 points at a time and checks whether they all lie on the same
@@ -39,14 +40,19 @@ public class BruteCollinearPoints {
                 double slopePQ = points[i].slopeTo(points[j]);
                 for (int k = j+1; k < points.length; k++){
                     double slopePR = points[i].slopeTo(points[k]);
-                    // only check fourth point if the first three points are collinear
+
+                    // don't check fourth point if the first three are not collinear
                     if (slopePQ != slopePR)
                         continue;
 
-                    for (int l = k+1; l < points.length; l++){
+                    // since the list is sorted, compare in reverse to get the longest segment
+                    for (int l = points.length-1; l >= k+1; l--){
                         double slopePS = points[i].slopeTo(points[l]);
                         if (slopePS == slopePQ){
+                            // four points are collinear so add to segments list
                             segments.add(new LineSegment(points[i], points[l]));
+                            // terminate the innermost loop
+                            break;
                         }
                     }
                 }
