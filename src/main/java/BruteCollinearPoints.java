@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 
 /*
  * Examines 4 points at a time and checks whether they all lie on the same
@@ -27,6 +26,7 @@ public class BruteCollinearPoints {
                 throw new IllegalArgumentException("Point in the array is null.");
         }
 
+        // sort points by their x,y coordinates
         Arrays.sort(points);
 
         // check for duplicates

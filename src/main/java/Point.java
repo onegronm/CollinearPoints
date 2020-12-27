@@ -19,6 +19,28 @@ import edu.princeton.cs.algs4.StdOut;
 
 public class Point implements Comparable<Point> {
 
+    public class SlopeOrder implements Comparator<Point> {
+
+        Point p0; // the invoking Point (x0,y0)
+
+        public SlopeOrder(Point p) {
+            p0 = p;
+        }
+
+        @Override
+        public int compare(Point p1, Point p2) {
+            double slopeP1 = p0.slopeTo(p1);
+            double slopeP2 = p0.slopeTo(p2);
+
+            if (slopeP1 < slopeP2)
+                return -1;
+            else if (slopeP1 > slopeP2)
+                return 1;
+            else
+                return 0;
+        }
+    }
+
     private final int x;     // x-coordinate of this point
     private final int y;     // y-coordinate of this point
 
@@ -109,7 +131,7 @@ public class Point implements Comparable<Point> {
      */
     public Comparator<Point> slopeOrder() {
         /* YOUR CODE HERE */
-        SlopeComparator comparator = new SlopeComparator(this);
+        SlopeOrder comparator = new SlopeOrder(this);
 
         return comparator;
     }
@@ -135,7 +157,7 @@ public class Point implements Comparable<Point> {
         ArrayList<Point> points = new ArrayList<>();
         try
         {
-            File input10 = new File("C:\\Users\\omarn\\source\\repos\\CollinearPoints\\input\\rs1423.txt");
+            File input10 = new File("C:\\Users\\omarn\\source\\repos\\CollinearPoints\\input\\input8.txt");
             Scanner myReader = null;
             myReader = new Scanner(input10);
 
@@ -158,7 +180,9 @@ public class Point implements Comparable<Point> {
             }
 
             // print and draw the line segments
-            BruteCollinearPoints collinear = new BruteCollinearPoints(points.toArray(new Point[0]));
+            //BruteCollinearPoints collinear = new BruteCollinearPoints(points.toArray(new Point[0]));
+            FastCollinearPoints collinear = new FastCollinearPoints(points.toArray(new Point[0]));
+
             for (LineSegment segment : collinear.segments()) {
                 StdOut.println(segment);
                 segment.draw();
