@@ -8,12 +8,9 @@
  *
  ******************************************************************************/
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Scanner;
 
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
@@ -154,43 +151,31 @@ public class Point implements Comparable<Point> {
      */
     public static void main(String[] args) {
         /* YOUR CODE HERE */
-        ArrayList<Point> points = new ArrayList<>();
-        try
-        {
-            File input10 = new File("C:\\Users\\omarn\\source\\repos\\CollinearPoints\\input\\input8.txt");
-            Scanner myReader = null;
-            myReader = new Scanner(input10);
-
-            while (myReader.hasNextLine()){
-                String data = myReader.nextLine();
-                String[] strs = data.split("\\s+");
-
-                if(strs.length > 1)
-                    points.add(new Point(Integer.parseInt(strs[0]), Integer.parseInt(strs[1])));
-            }
-
-            myReader.close();
-
-            // draw the points
-            StdDraw.enableDoubleBuffering();
-            StdDraw.setXscale(0, 32768);
-            StdDraw.setYscale(0, 32768);
-            for (Point p : points){
-                p.draw();
-            }
-
-            // print and draw the line segments
-            //BruteCollinearPoints collinear = new BruteCollinearPoints(points.toArray(new Point[0]));
-            FastCollinearPoints collinear = new FastCollinearPoints(points.toArray(new Point[0]));
-
-            for (LineSegment segment : collinear.segments()) {
-                StdOut.println(segment);
-                segment.draw();
-            }
-            StdDraw.show();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        // read the n points from a file
+        In in = new In(args[0]);
+        int n = in.readInt();
+        Point[] points = new Point[n];
+        for (int i = 0; i < n; i++) {
+            int x = in.readInt();
+            int y = in.readInt();
+            points[i] = new Point(x, y);
         }
+
+        // draw the points
+        StdDraw.enableDoubleBuffering();
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        for (Point p : points) {
+            p.draw();
+        }
+        StdDraw.show();
+
+        // print and draw the line segments
+        FastCollinearPoints collinear = new FastCollinearPoints(points);
+        for (LineSegment segment : collinear.segments()) {
+            StdOut.println(segment);
+            segment.draw();
+        }
+        StdDraw.show();
     }
 }

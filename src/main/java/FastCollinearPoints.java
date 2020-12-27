@@ -33,36 +33,39 @@ public class FastCollinearPoints {
 
             Point p = points[i];
 
-            // Copy array to not affect original order
-            Point[] pointsCopy = Arrays.copyOf(points, points.length);
+            // copy array with every point but p
+            Point[] pointsCopy = new Point[points.length-1];
+
+            int k = 0;
+            for(int j=0; j<points.length; j++){
+                if(p.compareTo(points[j]) != 0)
+                    pointsCopy[k++] = points[j];
+            }
 
             // For each other point q, sort the points according to the slopes they make with p
             Arrays.sort(pointsCopy, p.slopeOrder());
 
             // Check if any 3 (or more) adjacent points in the sorted order have equal slopes with respect to p. If so, these points, together with p, are collinear.
-            int j = 1;
-            int adjacentCount = 1;
-            double slopePQ = p.slopeTo(pointsCopy[j++]);
+            double slope = 0;
+            int numberOfCollinearPoints = 1;
+            for(int j=0; j<pointsCopy.length; j++){
+                double newSlope = p.slopeTo(pointsCopy[j]);
+                if(slope != newSlope) {
 
-            while (j < pointsCopy.length){
-                double slope = p.slopeTo(pointsCopy[j]);
-                if(slope != slopePQ) {
-
-                    if (adjacentCount >= 3){
+                    if (numberOfCollinearPoints > 3){
                         segments.add(new LineSegment(p, pointsCopy[j-1]));
                     }
 
-                    slopePQ = slope;
-                    adjacentCount = 1;
+                    slope = newSlope;
+                    numberOfCollinearPoints = 2;
                 }
                 else {
-                    adjacentCount++;
+                    numberOfCollinearPoints++;
                 }
-                j++;
-            }
 
-            if (adjacentCount >= 3){
-                segments.add(new LineSegment(p, points[j-1]));
+                if (j == pointsCopy.length-1 && numberOfCollinearPoints > 3){
+                    segments.add(new LineSegment(p, pointsCopy[j-1]));
+                }
             }
         }
     }
