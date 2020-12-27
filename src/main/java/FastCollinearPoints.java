@@ -3,7 +3,7 @@ import java.util.Arrays;
 
 public class FastCollinearPoints {
 
-    ArrayList<LineSegment> segments = new ArrayList<>();
+    private ArrayList<LineSegment> segments = new ArrayList<>();
 
     /**
      * finds all line segments containing 4 or more points
@@ -19,6 +19,7 @@ public class FastCollinearPoints {
             if (points[i] == null)
                 throw new IllegalArgumentException("Point in the array is null.");
         }
+
 
         // sort points by their x,y coordinates
         Arrays.sort(points);

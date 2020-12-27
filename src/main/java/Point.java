@@ -16,7 +16,7 @@ import edu.princeton.cs.algs4.StdOut;
 
 public class Point implements Comparable<Point> {
 
-    public class SlopeOrder implements Comparator<Point> {
+    private class SlopeOrder implements Comparator<Point> {
 
         Point p0; // the invoking Point (x0,y0)
 

@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 public class BruteCollinearPoints {
 
-    ArrayList<LineSegment> segments = new ArrayList<>();
+    private ArrayList<LineSegment> segments = new ArrayList<>();
 
     /**
      * Finds all line segments containing 4 points
@@ -26,31 +26,33 @@ public class BruteCollinearPoints {
                 throw new IllegalArgumentException("Point in the array is null.");
         }
 
+        Point[] pointsCopy = Arrays.copyOf(points, points.length);
+
         // sort points by their x,y coordinates
-        Arrays.sort(points);
+        Arrays.sort(pointsCopy);
 
         // check for duplicates
-        for(int i = 1; i < points.length; i++){
-            if (points[i].compareTo(points[i-1]) == 0)
+        for(int i = 1; i < pointsCopy.length; i++){
+            if (pointsCopy[i].compareTo(pointsCopy[i-1]) == 0)
                 throw new IllegalArgumentException("Array contains repeated points.");
         }
 
-        for (int i = 0; i < points.length; i++){
-            for (int j = i+1; j < points.length; j++){
-                double slopePQ = points[i].slopeTo(points[j]);
-                for (int k = j+1; k < points.length; k++){
-                    double slopePR = points[i].slopeTo(points[k]);
+        for (int i = 0; i < pointsCopy.length; i++){
+            for (int j = i+1; j < pointsCopy.length; j++){
+                double slopePQ = pointsCopy[i].slopeTo(pointsCopy[j]);
+                for (int k = j+1; k < pointsCopy.length; k++){
+                    double slopePR = pointsCopy[i].slopeTo(pointsCopy[k]);
 
                     // don't check fourth point if the first three are not collinear
                     if (slopePQ != slopePR)
                         continue;
 
                     // since the list is sorted, compare in reverse to get the longest segment
-                    for (int l = points.length-1; l >= k+1; l--){
-                        double slopePS = points[i].slopeTo(points[l]);
+                    for (int l = pointsCopy.length-1; l >= k+1; l--){
+                        double slopePS = pointsCopy[i].slopeTo(pointsCopy[l]);
                         if (slopePS == slopePQ){
                             // four points are collinear so add to segments list
-                            segments.add(new LineSegment(points[i], points[l]));
+                            segments.add(new LineSegment(pointsCopy[i], pointsCopy[l]));
                             // terminate the innermost loop
                             break;
                         }
